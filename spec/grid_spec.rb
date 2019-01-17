@@ -1,5 +1,5 @@
 require_relative '../grid'
-
+require_relative '../coordinate'
 RSpec.describe(Grid) do
   subject { described_class.new(cells) }
 
@@ -23,6 +23,14 @@ RSpec.describe(Grid) do
     end
     it 'reports dead cell' do
       expect(subject.alive?(5,0)).to eq(false)
+    end
+  end
+  context 'cell has neighbours' do
+    let(:neighbours) {
+      [Coordinate.new(1, 0), Coordinate.new(1, 1), Coordinate.new(1, 2), Coordinate.new(2, 0), Coordinate.new(2, 2), Coordinate.new(3, 0), Coordinate.new(3, 1), Coordinate.new(3, 3)]
+    }
+    it 'returns the coordinates of its neighbours' do
+      expect(subject.neighbours(2, 1)).to match_array(neighbours)
     end
   end
 end

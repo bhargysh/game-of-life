@@ -1,3 +1,4 @@
+require_relative './coordinate'
 class Grid
   def initialize(cells)
     @cells = cells
@@ -11,6 +12,11 @@ class Grid
   def dead?(x, y)
     return true unless check?(x, y)
     @cells[y][x] == 'd'
+  end
+
+  def neighbours(x, y)
+    starting_neighbour = Coordinate.new(x - 1, y - 1)
+    [starting_neighbour.up]
   end
 
   private
