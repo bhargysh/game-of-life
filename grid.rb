@@ -4,25 +4,31 @@ class Grid
     @cells = cells
   end
 
-  def alive?(x, y)
-    return false unless check?(x, y)
-    @cells[y][x] == 'a'
+  def alive?(coordinate)
+    return false unless check?(coordinate)
+    @cells[coordinate.y][coordinate.x] == 'a'
   end
 
-  def dead?(x, y)
-    return true unless check?(x, y)
-    @cells[y][x] == 'd'
+  def dead?(coordinate)
+    return true unless check?(coordinate)
+    @cells[coordinate.y][coordinate.x] == 'd'
   end
 
-  def neighbours(x, y)
-    starting_neighbour = Coordinate.new(x - 1, y - 1)
-    [starting_neighbour.up]
+  def neighbours(centre)
+    left_neighbour = centre.left
+    right_neighbour = centre.right
+    [
+      centre.up, centre.down, left_neighbour, right_neighbour,
+      left_neighbour.up, left_neighbour.down,
+      right_neighbour.up, right_neighbour.down
+    ]
+
   end
 
   private
-  def check?(x, y)
+  def check?(coordinate)
     x_range = 0...@cells[0].length
     y_range = 0...@cells.length
-    x_range.include?(x) && y_range.include?(y)
+    x_range.include?(coordinate.x) && y_range.include?(coordinate.y)
   end
 end
