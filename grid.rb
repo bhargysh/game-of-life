@@ -1,5 +1,6 @@
 require_relative './coordinate'
 class Grid
+  attr_reader :cells
   def initialize(cells)
     @cells = cells
   end
@@ -22,7 +23,23 @@ class Grid
       left_neighbour.up, left_neighbour.down,
       right_neighbour.up, right_neighbour.down
     ]
+  end
 
+  def state(coordinate)
+    return nil unless check?(coordinate)
+    @cells[coordinate.y][coordinate.x]
+  end
+
+  def update(rules)
+    x_range = 0...@cells[0].length
+    y_range = 0...@cells.length
+    new_cells = y_range.map do |y_cell|
+      x_range.map do |x_cell|
+        coordinate = Coordinate.new(x_cell, y_cell)
+        rules.fetch(coordinate, self)
+      end
+    end
+    Grid.new(new_cells)
   end
 
   private

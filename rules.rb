@@ -17,6 +17,6 @@ class Rules
             cell_state = rule.fetch(coordinate, grid)
             return cell_state unless cell_state.nil?
         end
-        raise StandardError, "No rules fired"
+        grid.state(coordinate)
     end
 end

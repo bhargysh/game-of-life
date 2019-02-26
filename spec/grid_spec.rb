@@ -1,10 +1,15 @@
 require_relative '../grid'
 require_relative '../coordinate'
+require_relative '../rules'
 RSpec.describe(Grid) do
   subject { described_class.new(cells) }
 
   let(:cells) do
-    [ ['a', 'd', 'd'], ['a','a', 'a'], ['a','a', 'a'] ]
+    [
+      ['a', 'd', 'd'],
+      ['a', 'a', 'a'],
+      ['a', 'a', 'a']
+    ]
   end
   context 'when grid is created' do
     it 'checks if cell is alive' do
@@ -35,6 +40,31 @@ RSpec.describe(Grid) do
     }
     it 'returns the coordinates of its neighbours' do
       expect(subject.neighbours(Coordinate.new(2, 1))).to match_array(neighbours)
+    end
+  end
+  describe '#state' do
+    context 'when coordinate is on the grid' do
+      let(:coordinate) { Coordinate.new(0, 1) }
+      it 'returns the state of the cell' do
+        expect(subject.state(coordinate)).to eq('a')
+      end
+    end
+    context 'when coordinate is off the grid' do
+      let(:coordinate) { Coordinate.new(0, -1) }
+      it 'returns nil' do
+        expect(subject.state(coordinate)).to be_nil
+      end
+    end
+  end
+  context 'when determining next state of a grid' do
+    let(:rules) { Rules.new }
+    let(:grid) { [
+      ['a', 'd', 'd'],
+      ['d', 'd', 'a'],
+      ['a', 'd', 'a']
+    ] }
+    it 'returns the new grid' do
+      expect(subject.update(rules).cells).to eq(grid)
     end
   end
 end
