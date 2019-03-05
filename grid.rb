@@ -5,6 +5,14 @@ class Grid
     @cells = cells
   end
 
+  def x_range
+    0...@cells[0].length
+  end
+
+  def y_range
+    0...@cells.length
+  end
+
   def alive?(coordinate)
     return false unless check?(coordinate)
     @cells[coordinate.y][coordinate.x] == 'a'
@@ -31,8 +39,6 @@ class Grid
   end
 
   def update(rules)
-    x_range = 0...@cells[0].length
-    y_range = 0...@cells.length
     new_cells = y_range.map do |y_cell|
       x_range.map do |x_cell|
         coordinate = Coordinate.new(x_cell, y_cell)
@@ -42,10 +48,7 @@ class Grid
     Grid.new(new_cells)
   end
 
-  private
   def check?(coordinate)
-    x_range = 0...@cells[0].length
-    y_range = 0...@cells.length
     x_range.include?(coordinate.x) && y_range.include?(coordinate.y)
   end
 end
