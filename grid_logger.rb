@@ -1,7 +1,7 @@
 class GridLogger
     def log(grid)
       output = ""
-      columns = grid.y_range.size
+      columns = grid.x_range.size
       output << "+#{'-'* columns}+\n"
       grid.y_range.reverse_each do |y_cell|
         output << "|"
